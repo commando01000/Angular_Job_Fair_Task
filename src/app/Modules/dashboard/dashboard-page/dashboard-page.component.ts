@@ -10,7 +10,13 @@ import { Customer, Transaction } from 'src/app/interfaces/customer';
   styleUrls: ['./dashboard-page.component.scss'],
 })
 export class DashboardPageComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'customer_name', 'date', 'amount'];
+  displayedColumns: string[] = [
+    'id',
+    'customer_name',
+    'date',
+    'amount',
+    'Preview Graph',
+  ];
 
   customers: Customer[] | any = [
     { id: '1', name: 'Ahmed Ali' },
@@ -36,6 +42,7 @@ export class DashboardPageComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort | null = null;
   dataSource: MatTableDataSource<Transaction>;
 
+  currentItem: any;
   constructor() {
     // Initialize dataSource with merged data
     this.dataSource = new MatTableDataSource(
@@ -55,6 +62,39 @@ export class DashboardPageComponent implements AfterViewInit {
         (customer: Customer) => customer.id === transaction.customer_id
       )?.name,
     }));
+  }
+
+  viewGraph(row: any) {
+    this.selectCustomerTransactions(row.customer_id);
+    // console.log(this.currentItem);
+  }
+
+  selectCustomerTransactions(customerId: string) {
+    const filteredTransactions = this.transactions.filter(
+      (t: { customer_id: string }) => t.customer_id === customerId
+    );
+
+    const transactionsByDate: { [date: string]: number } =
+      filteredTransactions.reduce(
+        (
+          acc: { [date: string]: number },
+          current: { date: string; amount: string }
+        ) => {
+          const date = current.date;
+          if (!acc[date]) {
+            acc[date] = 0;
+          }
+          acc[date] += parseFloat(current.amount);
+          return acc;
+        },
+        {}
+      );
+
+    const dates = Object.keys(transactionsByDate).sort();
+    const amounts = dates.map((date) => transactionsByDate[date]);
+
+    this.currentItem = { dates, amounts };
+    console.log(this.currentItem);
   }
 
   applyFilter(event: Event) {

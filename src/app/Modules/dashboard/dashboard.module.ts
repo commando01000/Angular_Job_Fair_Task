@@ -11,9 +11,14 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
+import { ViewGraphComponent } from './view-graph/view-graph.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 @NgModule({
-  declarations: [DashboardLayoutComponent, DashboardPageComponent],
+  declarations: [
+    DashboardLayoutComponent,
+    DashboardPageComponent,
+    ViewGraphComponent,
+  ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -24,6 +29,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatTableModule,
     MatInputModule,
     MatFormFieldModule,
+    NgApexchartsModule,
   ],
 })
 export class DashboardModule {}

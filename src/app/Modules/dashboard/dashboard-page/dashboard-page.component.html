@@ -20,7 +20,9 @@
 
         <!-- Customer ID Column -->
         <ng-container matColumnDef="customer_name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Customer Name</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Customer Name
+          </th>
           <td mat-cell *matCellDef="let row">{{ row.customer_name }}</td>
         </ng-container>
 
@@ -34,6 +36,17 @@
         <ng-container matColumnDef="amount">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
           <td mat-cell *matCellDef="let row">{{ row.amount }}</td>
+        </ng-container>
+
+        <!-- Preview Column -->
+        <ng-container matColumnDef="Preview Graph">
+          <th mat-header-cell *matHeaderCellDef>Preview Graph</th>
+          <td class="fs-5" mat-cell *matCellDef="let row">
+            <a class="ms-4" (click)="viewGraph(row)"
+              ><i class="fa-solid fa-eye" style="color: #74c0fc"></i
+            ></a>
+            &nbsp;
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -54,3 +67,4 @@
     </div>
   </main>
 </section>
+<app-view-graph [item]="currentItem"></app-view-graph>
