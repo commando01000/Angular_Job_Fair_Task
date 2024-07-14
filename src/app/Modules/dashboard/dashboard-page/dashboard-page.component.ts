@@ -45,15 +45,16 @@ export class DashboardPageComponent implements AfterViewInit {
     this._http.get<any>('assets/data.json').subscribe((data) => {
       this.customers = data.customers;
       this.transactions = data.transactions;
-      console.log(this.transactions);
       this.dataSource = new MatTableDataSource(
         this.mergeTransactionsWithCustomers()
       );
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort) sort: MatSort | null = null;
+  @ViewChild(MatPaginator) paginator: MatPaginator | any;
+  @ViewChild(MatSort) sort: MatSort | any;
   dataSource: MatTableDataSource<Transaction> | any;
 
   currentItem: any;
@@ -62,8 +63,7 @@ export class DashboardPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+   
   }
 
   mergeTransactionsWithCustomers() {
