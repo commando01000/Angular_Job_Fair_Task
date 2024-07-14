@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -18,36 +19,27 @@ export class DashboardPageComponent implements AfterViewInit {
     'Preview Graph',
   ];
 
-  customers: Customer[] | any = [
-    { id: '1', name: 'Ahmed Ali' },
-    { id: '2', name: 'Aya Elsayed' },
-    { id: '3', name: 'Mina Adel' },
-    { id: '4', name: 'Sarah Reda' },
-    { id: '5', name: 'Mohamed Sayed' },
-  ];
-
-  transactions: Transaction[] | any = [
-    { id: '1', customer_id: '1', date: '2022-01-01', amount: '1000' },
-    { id: '2', customer_id: '1', date: '2022-01-02', amount: '2000' },
-    { id: '3', customer_id: '2', date: '2022-01-01', amount: '550' },
-    { id: '4', customer_id: '3', date: '2022-01-01', amount: '500' },
-    { id: '5', customer_id: '2', date: '2022-01-02', amount: '1300' },
-    { id: '6', customer_id: '4', date: '2022-01-01', amount: '750' },
-    { id: '7', customer_id: '3', date: '2022-01-02', amount: '1250' },
-    { id: '8', customer_id: '5', date: '2022-01-01', amount: '2500' },
-    { id: '9', customer_id: '5', date: '2022-01-02', amount: '875' },
-  ];
+  customers: Customer[] = [];
+  transactions : Transaction[] | any = [];
+  
+  loadData() {
+    this._http.get<any>('assets/data.json').subscribe(data => {
+      this.customers = data.customers;
+      this.transactions = data.transactions;
+      console.log(this.transactions);
+      this.dataSource = new MatTableDataSource(
+        this.mergeTransactionsWithCustomers()
+      );
+    });
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
-  dataSource: MatTableDataSource<Transaction>;
+  dataSource: MatTableDataSource<Transaction> | any;
 
   currentItem: any;
-  constructor() {
-    // Initialize dataSource with merged data
-    this.dataSource = new MatTableDataSource(
-      this.mergeTransactionsWithCustomers()
-    );
+  constructor(private _http: HttpClient) {
+    this.loadData();
   }
 
   ngAfterViewInit() {
@@ -56,6 +48,7 @@ export class DashboardPageComponent implements AfterViewInit {
   }
 
   mergeTransactionsWithCustomers() {
+    console.log(this.customers);
     return this.transactions.map((transaction: any) => ({
       ...transaction,
       customer_name: this.customers.find(

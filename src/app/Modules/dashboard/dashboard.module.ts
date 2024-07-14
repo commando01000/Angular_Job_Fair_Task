@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ViewGraphComponent } from './view-graph/view-graph.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+
+import {HttpClientModule} from '@angular/common/http';
 @NgModule({
   declarations: [
     DashboardLayoutComponent,
@@ -30,6 +32,7 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     MatInputModule,
     MatFormFieldModule,
     NgApexchartsModule,
+    HttpClientModule
   ],
 })
 export class DashboardModule {}
