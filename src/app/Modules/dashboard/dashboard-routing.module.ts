@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'dashboard', // Fallback to dashboard for any undefined routes
+        redirectTo: 'dashboard-page', // Fallback to dashboard for any undefined routes
       },
     ],
   },
