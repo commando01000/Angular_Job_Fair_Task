@@ -17,12 +17,16 @@ const routes: Routes = [
         path: 'dashboard-page',
         component: DashboardPageComponent,
       },
+      {
+        path: '**',
+        redirectTo: 'dashboard', // Fallback to dashboard for any undefined routes
+      },
     ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class DashboardRoutingModule { }
+export class DashboardRoutingModule {}
